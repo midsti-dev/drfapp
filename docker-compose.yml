@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  drf-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - '8000:8000'
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    volumes:
+      - ./proj:/usr/src/app
+    depends_on:
+      - app-postgres
+
+  app-postgres:
+    image: postgres
+    container_name: app-postgres
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_DB=postimit'
+    ports:
+      - '5432:5432'
+
+  drf-app-asgi-daphne:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: daphne -b 0.0.0.0 -p 8001 src.asgi:application
+    container_name: app
+    ports:
+      - '8001:8001'
+    restart: unless-stopped
+    volumes:
+      - ./proj:/usr/src/app
+    env_file:
+      - ./.env.docker
+    depends_on:
+      - app-redis
+
+  app-redis:
+    image: redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    ports:
+      - '6379:6379'
+volumes:
+  postgres_data:
+  redis_data:
