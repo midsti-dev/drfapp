@@ -207,6 +207,9 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 MEDIA_URL = "/media/"
 
+REDIS_HOST = os.environ.get("REDIS_HOST")
+REDIS_PORT = os.environ.get("REDIS_PORT")
+REDIS_DB = os.environ.get("REDIS_DB")
 
 CACHES = {
     "default": {
@@ -227,4 +230,5 @@ CHANNEL_LAYERS = {
     }
 }
 
-CELERY_BROKER_URL = f"{os.environ.get('REDIS_HOST')}:{os.environ.get('REDIS_PORT')}/{os.environ.get('REDIS_DB')}"
+CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_HOST')}:{os.environ.get('REDIS_PORT')}/{os.environ.get('REDIS_DB')}"
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL

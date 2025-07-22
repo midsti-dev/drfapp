@@ -11,6 +11,7 @@ from posts.filters import PostsFilter
 from posts.models import Post, PostAttachment
 from posts.serializers import PostSerializer, PostAttachmentSerializer
 from posts.permissions import PostOwnerPermission
+from posts.tasks import log_posts_opened
 
 
 # Create your views here.
@@ -33,6 +34,11 @@ class PostsViewSet(
         if self.action in ("retrieve", "update", "partial_update", "destroy"):
             return [PostOwnerPermission()]
         return [AllowAny()]
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        log_posts_opened.delay()
+        return response
 
 
 @extend_schema_view(
