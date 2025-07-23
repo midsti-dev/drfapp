@@ -63,7 +63,7 @@ services:
 
   celery_beat:
     build: .
-    command: celery -A src beat --loglevel=inf
+    command: celery -A src beat --loglevel=info
     volumes:
       - ../proj:/usr/src/app
     depends_on:
