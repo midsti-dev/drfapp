@@ -57,6 +57,8 @@ services:
     command:  celery -A src worker --loglevel=info
     volumes:
       - ../proj:/usr/src/app
+    env_file:
+      - ./.env.docker
     depends_on:
       - drf-app
       - app-redis
@@ -66,6 +68,8 @@ services:
     command: celery -A src beat --loglevel=info
     volumes:
       - ../proj:/usr/src/app
+    env_file:
+      - ./.env.docker
     depends_on:
       - drf-app
       - app-redis
