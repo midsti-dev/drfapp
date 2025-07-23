@@ -51,6 +51,24 @@ services:
       - redis_data:/data
     ports:
       - '6379:6379'
+
+  celery_worker:
+    build: .
+    command:  celery -A src worker --loglevel=info
+    volumes:
+      - ../proj:/usr/src/app
+    depends_on:
+      - drf-app
+      - app-redis
+
+  celery_beat:
+    build: .
+    command: celery -A src beat --loglevel=inf
+    volumes:
+      - ../proj:/usr/src/app
+    depends_on:
+      - drf-app
+      - app-redis
 volumes:
   postgres_data:
   redis_data:
