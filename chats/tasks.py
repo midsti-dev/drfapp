@@ -15,3 +15,4 @@ def check_active_users():
     )
     users = r.smembers("active_users")
     print(f"[Celery] Active WebSocket users: {users}")
+

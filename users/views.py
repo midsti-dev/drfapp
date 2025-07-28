@@ -62,3 +62,4 @@ class UserUpdateAPIView(mixins.UpdateModelMixin,
     serializer_class = UserSerializer
     permission_classes = (IsOwner,)
 
+

@@ -17,7 +17,6 @@ services:
 
   app-postgres:
     image: postgres
-    container_name: app-postgres
     restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -33,7 +32,6 @@ services:
       context: .
       dockerfile: Dockerfile
     command: daphne -b 0.0.0.0 -p 8001 src.asgi:application
-    container_name: app
     ports:
       - '8001:8001'
     restart: unless-stopped

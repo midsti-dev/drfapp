@@ -41,3 +41,4 @@ class JWTAuthMiddleware(BaseMiddleware):
 
 def JWTAuthMiddlewareStack(inner):
     return JWTAuthMiddleware(AuthMiddlewareStack(inner))
+

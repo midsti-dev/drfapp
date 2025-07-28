@@ -91,3 +91,4 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
 #     queryset = Room.objects.all()
 #     serializer_class = RoomSerializer
 #     lookup_field = "id"
+

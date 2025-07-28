@@ -34,3 +34,4 @@ def _bulk_save(users):
         User.objects.bulk_update(users, ['is_active'])
 
 
+
